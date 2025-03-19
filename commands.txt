@@ -1,0 +1,69 @@
+npx create-expo-app@latest
+npx expo start
+npm run reset-project
+npx expo start --clear
+
+
+
+https://www.nativewind.dev/getting-started/installation
+
+#tailwindcss config
+
+##install
+npm install nativewind tailwindcss react-native-reanimated react-native-safe-area-context
+
+
+npx tailwindcss init
+
+#create file
+tailwind.config.js
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  // NOTE: Update this to include the paths to all of your component files.
+  content: ["./app/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+#create file
+app/global.css
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#create file
+babel.config.js
+
+module.exports = function (api) {
+  api.cache(true);
+  return {
+    presets: [
+      ["babel-preset-expo", { jsxImportSource: "nativewind" }],
+      "nativewind/babel",
+    ],
+  };
+};
+
+#create file
+metro.config.js
+
+const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require('nativewind/metro');
+
+const config = getDefaultConfig(__dirname)
+
+module.exports = withNativeWind(config, { input: './app/global.css' })
+
+##Import your CSS file
+App.js
+
+import "./global.css"
+
+export default App() {
+  /* Your App */
+}
